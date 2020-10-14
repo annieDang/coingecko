@@ -10,6 +10,7 @@ requests = "*"
 win10toast = "*"
 pycoingecko = "*"
 numpy = "*"
+wxpython = "*"
 
 [requires]
 python_version = "3.7"
