@@ -16,6 +16,8 @@ class Application(wx.Frame):
         self.Centre()
         # load data
         self.cg = CoinGeckoAPI()
+        self.Layout()
+        self.Update()
 
 
     def InitUI(self):
@@ -24,6 +26,9 @@ class Application(wx.Frame):
         font = wx.SystemSettings.GetFont(wx.SYS_SYSTEM_FONT)
 
         font.SetPointSize(15)
+
+        self.grid_count_row = 1
+        self.grid_count_col = 1
 
         sizer = wx.GridBagSizer(7, 5)
 
@@ -47,12 +52,13 @@ class Application(wx.Frame):
         btn1.Bind(wx.EVT_BUTTON, self.check) 
         btn2 = wx.Button(panel, label='Update', size=(70, 30))
         sizer.Add(btn2, pos=(3, 5),flag=wx.RIGHT|wx.CENTER, border=5)
+        btn2.Bind(wx.EVT_BUTTON, self.update) 
         
         cal_options = [ "Decreased more than", "Increased more than"]
-        self.cal_combo = wx.ComboBox(panel ,value=cal_options[0] ,choices = cal_options, size=(150, 30)) 
+        self.cal_combo = wx.ComboBox(panel ,value=cal_options[1] ,choices = cal_options, size=(150, 30)) 
         sizer.Add(self.cal_combo, pos=(3, 0),flag=wx.LEFT|wx.EXPAND|wx.CENTER, border=15)
         
-        self.change_percentage = wx.TextCtrl(panel, value="2", size=(150, 30))
+        self.change_percentage = wx.TextCtrl(panel, value="0.5", size=(150, 30))
         sizer.Add(self.change_percentage, pos=(3, 1), flag=wx.CENTER|wx.EXPAND, border=5)
         st2 = wx.StaticText(panel, label='%', size=(30, 30))
         st2.SetFont(font)
@@ -64,13 +70,15 @@ class Application(wx.Frame):
         st3 = wx.StaticText(panel, label='Result:', size=(150, 30))
         st3.SetFont(font)
         sizer.Add(st3, pos=(5, 0), flag=wx.LEFT|wx.EXPAND|wx.CENTER,border=15)
-
+        
         self.grid = wx.grid.Grid(panel, size=(1000, 300))
-        self.grid.CreateGrid(15,12)
+        self.grid.AutoSizeColumns(setAsMin=True)
+        self.grid.CreateGrid(100,12)
         sizer.Add(self.grid, pos=(6, 0), span=(0, 6), flag=wx.EXPAND|wx.CENTER, border=10)
 
         panel.SetSizer(sizer)
         sizer.Fit(self)
+
 
     def check(self, event):
         df_coins = pd.DataFrame(self.cg.get_coins())
@@ -80,7 +88,7 @@ class Application(wx.Frame):
         req1_field = self.price_change_percentage.GetValue()
         print(req1_field)
         req2_field = "price_change_percentage_%s_in_currency" % (req1_field)
-        percent = int(self.change_percentage.GetValue())
+        percent = float(self.change_percentage.GetValue())
 
         data = self.cg.get_coins_markets(ids=coin_list,
              vs_currency="usd", 
@@ -95,14 +103,39 @@ class Application(wx.Frame):
         self.df_to_list(df_requested_data[['id', req2_field]])
 
     def df_to_list(self,df):
-         for index, row in df.iterrows():
-            for col in range(0, len(row)):
-                self.grid.SetCellValue(index, col, str(row[col]))
+        print(df)
+        self.clear_grid()
+        self.grid_count_row, self.grid_count_col = df.shape
+        print(self.grid_count_row)
+        if (self.grid_count_row <= 1 or self.grid_count_col <= 1):
+            return
+
+        for x in range(len(df.columns.values)):
+            self.grid.SetCellValue(0,x, str(df.columns.values[x]))
+            self.grid.SetCellFont(0,x, wx.Font(10, wx.SWISS, wx.NORMAL, wx.BOLD)) 
+            self.grid.SetCellBackgroundColour(0,x, "light blue")
+            self.grid.SetColSize(x, 300)
         
+        row_indx = 1
+        for index, row in df.iterrows():
+            for col in range(0, self.grid_count_col):
+                self.grid.SetCellValue(row_indx, col, str(row[col]))
+            row_indx +=1
+        
+        self.grid.ForceRefresh()
 
-    def update(self):
-        sendNotifications("update")
+    def clear_grid(self):
+        """
+        remove all data
+        """
+        for row in range(0,self.grid_count_row):
+            for col in range(0,self.grid_count_col):
+                self.grid.SetCellValue(row, col, "")
+        self.grid.ForceRefresh()
 
+    def update(self, event):
+        self.clear_grid()
+        self.grid.ForceRefresh()
 
 def main():
     app = wx.App()

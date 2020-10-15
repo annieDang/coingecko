@@ -17,11 +17,10 @@ python ./src/main.py
 # Compiled with Pyinstaller
 
 # Windows
-pyinstaller --onefile --windowed main.py
+python -m site
+pyinstaller --onefile  --windowed ./src/main.py (run as admin)
+pyinstaller -y -D --name coinscraper --paths "C:\Windows\System32\downlevel" --windowed -i "icon.ico" --clean --distpath="." -p "...site-packages" main.py
 
-# MacOS
-pyinstaller --onefile --add-binary='/System/Library/Frameworks/Tk.framework/Tk':'tk' --add-binary='/System/Library/Frameworks/Tcl.framework/Tcl':'tcl' main.py
-```
 
 - Version: 1.0.0
 - License: MIT
