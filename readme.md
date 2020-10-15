@@ -1,6 +1,6 @@
 # Coingecko scraper
 
-> Python/Wxpython desktop GUI app to connect to coingecko. This app is specially designed for NDVA
+> Python/Wxpython desktop GUI app to connect to coingecko. This app is specially designed for NVDA (https://www.nvaccess.org/about-nvda/)
 
 > The app should be able to filter through every coin on coin gecko which
 
