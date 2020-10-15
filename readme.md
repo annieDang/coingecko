@@ -1,11 +1,15 @@
 # Coingecko scraper
 
-> Python/Tkinter desktop GUI app to connect to coingecko. This app is specially designed for NDVA
+> Python/Wxpython desktop GUI app to connect to coingecko. This app is specially designed for NDVA
 
 > The app should be able to filter through every coin on coin gecko which
 
 - Price decreased by more than X% over X days
 - Price increase by more than X% over X days
+
+## UI
+
+![UI](Screenshot.png)
 
 ## Usage
 
@@ -15,9 +19,6 @@ pipenv install
 
 # Run script
 python ./src/main.py
-
-# UI
-![UI](Screenshot.png)
 
 # Compiled with Pyinstaller
 
