@@ -4,6 +4,7 @@
 The app should be able to filter through every coin on coin gecko which 
 - Price decreased by  more than X% over X days
 - Price increase by more than   X% over X days
+specially designed for NDVA
 ## Usage
 
 ```bash
