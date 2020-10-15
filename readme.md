@@ -1,10 +1,12 @@
 # Coingecko scraper
 
 > Python/Tkinter desktop GUI app to connect to coingecko. This app uses Sqlite3 to store data
-The app should be able to filter through every coin on coin gecko which 
-- Price decreased by  more than X% over X days
-- Price increase by more than   X% over X days
-specially designed for NDVA
+> Specially designed for NDVA
+> The app should be able to filter through every coin on coin gecko which
+
+- Price decreased by more than X% over X days
+- Price increase by more than X% over X days
+
 ## Usage
 
 ```bash
@@ -14,8 +16,8 @@ pipenv install
 # Run script
 python ./src/main.py
 
-# UI 
-![Screen shot](Screenshot.png)
+# UI
+![Screen shot](./Screenshot.png)
 
 # Compiled with Pyinstaller
 
@@ -28,3 +30,4 @@ pyinstaller -y -D --name coinscraper --paths "C:\Windows\System32\downlevel" --w
 - Version: 1.0.0
 - License: MIT
 - Author: Annie Dang
+```
