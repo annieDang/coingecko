@@ -4,4 +4,4 @@ dist/
 src/__pycache__/
 *.spec
 Pipfile.lock
-install
+real-path

@@ -13,6 +13,8 @@ pipenv install
 # Run script
 python ./src/main.py
 
+# UI 
+![Screen shot](Screenshot.png)
 
 # Compiled with Pyinstaller
 
